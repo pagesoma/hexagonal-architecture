@@ -1,0 +1,25 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd ">
+
+  <changeSet id="pagesoma-202107-11" author="pagesoma">
+    <createTable tableName="orders" remarks="">
+      <column autoIncrement="true" name="id" type="BIGINT" remarks="">
+        <constraints primaryKey="true" primaryKeyName="ordersPK"/>
+      </column>
+      <column name="external_id" type="VARCHAR(45)" remarks=""/>
+      <column name="order_number" type="VARCHAR(16)" remarks=""/>
+      <column name="status" type="VARCHAR(10)" remarks="주문 상태"/>
+    </createTable>
+
+    <rollback>
+      <dropTable tableName="orders"/>
+    </rollback>
+  </changeSet>
+
+</databaseChangeLog>

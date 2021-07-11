@@ -1,0 +1,44 @@
+jib {
+    from {
+        image = 'openjdk:8-jre-alpine'
+    }
+
+//    extraDirectories {
+//
+//    }
+
+    to {
+        image = "${project.name}"
+        tags = ['latest', "${project.version}".toString()]
+    }
+
+    // If set to packaged, puts the JAR artifact built by the Gradle Java plugin into the final image.
+    // If set to exploded (default), containerizes individual .class files and resources files.
+    containerizingMode = 'packaged'
+
+    container {
+        jvmFlags = [
+                '-Xms1024m',
+                '-Xmx2048m',
+                '-XX:+HeapDumpOnOutOfMemoryError',
+                '-XX:HeapDumpPath=/tmp',
+                '-XX:+UseG1GC',
+                '-XX:+PrintGCDateStamps',
+                '-Djava.net.preferIPv4Stack=true',
+                '-Duser.timezone=Asia/Seoul',
+                '-Dfile.encoding=UTF8',
+                '-Dsun.net.inetaddr.ttl=30',
+        ]
+        ports = ['8080']
+        creationTime = 'USE_CURRENT_TIMESTAMP'
+    }
+}
+
+task down(type:Exec) {
+    commandLine '/usr/local/bin/docker-compose', '-f', 'docker/docker-compose.yml', 'down'
+}
+
+task up(type:Exec) {
+    dependsOn down
+    commandLine '/usr/local/bin/docker-compose', '-f', 'docker/docker-compose.yml', 'up'
+}

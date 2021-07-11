@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  mysql:
+    image: mysql:5.7.30
+    container_name: mysql
+    # To create database on docker-compose startup
+    # @see https://hub.docker.com/_/mysql
+    # When a container is started for the first time, a new database with the specified name will be created
+    # and initialized with the provided configuration variables. Furthermore, it will execute files
+    # with extensions .sh, .sql and .sql.gz that are found in /docker-entrypoint-initdb.d.
+    # Files will be executed in alphabetical order.
+    volumes:
+      - ../../mysql_data:/var/lib/mysql/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - 3306:3306
+    command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+    healthcheck:
+      test: ["CMD", "mysql -uroot -psecret -e 'SELECT 1'"]
+
+  redis:
+    image: redis:6.0.5
+    container_name: redis
+    ports:
+      - 6379:6379
