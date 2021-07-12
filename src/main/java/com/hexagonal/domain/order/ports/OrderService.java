@@ -44,7 +44,7 @@ public class OrderService {
 
   @Transactional(readOnly = true)
   public OrderDto getOrder(UUID orderId) {
-    Order order = orderRepository.findOneByExternalId(orderId);
+    Order order = orderRepository.findOneByOrderId(orderId);
     return orderMapper.toDto(order);
   }
 
@@ -64,33 +64,21 @@ public class OrderService {
 
   @Transactional
   public void prepare(UUID orderId) {
-    Order order = orderRepository.findOneByExternalId(orderId);
-    if (order == null) {
-      throw new EntityNotFoundException();
-    }
-
+    Order order = orderRepository.findOneByOrderId(orderId);
     order.prepare();
     orderRepository.save(order);
   }
 
   @Transactional
   public void complete(UUID orderId) {
-    Order order = orderRepository.findOneByExternalId(orderId);
-    if (order == null) {
-      throw new EntityNotFoundException();
-    }
-
+    Order order = orderRepository.findOneByOrderId(orderId);
     order.complete();
     orderRepository.save(order);
   }
 
   @Transactional
   public void cancel(UUID orderId) {
-    Order order = orderRepository.findOneByExternalId(orderId);
-    if (order == null) {
-      throw new EntityNotFoundException();
-    }
-
+    Order order = orderRepository.findOneByOrderId(orderId);
     if (order.cancel()) {
       orderRepository.save(order);
     }

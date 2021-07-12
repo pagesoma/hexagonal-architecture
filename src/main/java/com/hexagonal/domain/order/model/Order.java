@@ -25,7 +25,7 @@ public class Order {
 
   @Type(type = "uuid-char")
   @Column(length = 45)
-  private UUID externalId;
+  private UUID orderId;
 
   @Convert(converter = OrderNumberConverter.class)
   @Column(name = "order_number")

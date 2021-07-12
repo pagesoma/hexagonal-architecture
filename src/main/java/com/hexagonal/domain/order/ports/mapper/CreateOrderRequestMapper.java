@@ -18,6 +18,6 @@ import org.mapstruct.Mapping;
 public interface CreateOrderRequestMapper extends EntityMapper<OrderDto, Order> {
 
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "externalId", ignore = true)
+  @Mapping(target = "orderId", ignore = true)
   Order toEntity(CreateOrderRequestDto dto);
 }

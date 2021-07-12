@@ -16,7 +16,7 @@ import org.mapstruct.Mapping;
 )
 public interface OrderMapper extends EntityMapper<OrderDto, Order> {
 
-  @Mapping(target = "id", source = "externalId")
+  @Mapping(target = "id", source = "orderId")
 //  @Mapping(target = "orderStatus", source = "status")
   OrderDto toDto(Order entity);
 }
